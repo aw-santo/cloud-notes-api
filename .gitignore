@@ -3,3 +3,5 @@
 .env
 
 thunder-collection_cloud-notes.json
+
+.gitignore
