@@ -1,3 +1,5 @@
 /node_modules
 
 .env.local
+
+thunder-collection_cloud-notes.json
