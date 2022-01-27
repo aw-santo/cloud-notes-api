@@ -5,5 +5,5 @@ console.log(hash);
 // Store hash in your password DB.
 
 // Load hash from your password DB.
-console.log(bcrypt.compareSync("Sanket@223", hash)); // true
+console.log(bcrypt.compareSync("S23", hash)); // true
 console.log(bcrypt.compareSync("not_bacon", hash)); // false  
