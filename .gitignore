@@ -1,9 +1,9 @@
 /node_modules
 
-.env
+/.env
 
-thunder-collection_cloud-notes.json
+/thunder-collection_cloud-notes.json
 
-.gitignore  
+/.gitignore  
 
-demo.js
+/demo.js
