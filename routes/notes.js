@@ -117,7 +117,6 @@ router.delete('/deletenote/:id', fetchuser,
                 return res.status(401).send("Permission denied");
             }
             let q = await Notes.findByIdAndDelete(req.params.id);
-            console.log(q);
             res.send("Note deleted!");
 
         } catch (error) {
