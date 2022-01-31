@@ -84,9 +84,12 @@ router.post('/login', [
     async (req, res) => {
         const errors = validationResult(req);
 
+        let success = true;
+
         // if errors return bad req!
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            success = false;
+            return res.status(400).json({ success, errors: errors.array() });
         }
 
         try {
@@ -94,7 +97,8 @@ router.post('/login', [
             let isThere = user && bcrypt.compareSync(req.body.password, user.password);
 
             if (!isThere) {
-                return res.status(400).json({ error: "Enter valid credentials!🙂" })
+                success = false;
+                return res.status(400).json({ success, error: "Enter valid credentials!🙂" })
             }
 
             const data = {
@@ -104,14 +108,14 @@ router.post('/login', [
             }
             const auth_token = jwt.sign(data, JWT_SECRET);
 
-            res.json({ auth_token });
+            res.json({ success, auth_token });
 
             // res.send(`Hi ${user.name}✋, what's up?`);
 
         } catch (error) {
-
+            success = false;
             console.error(error.message);
-            res.status(500).send("Internal server error occured🚫");
+            res.status(500).json({ success, error:"Internal server error occured🚫"});
 
         }
 
