@@ -30,10 +30,13 @@ router.post('/createuser', [
 
         const errors = validationResult(req);
 
+        let success = true;
+
         // if errors return bad req!
 
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            success = false;
+            return res.status(400).json({ success, errors: errors.array() });
         }
 
         // try-catch for any kind of error-handling
@@ -44,7 +47,8 @@ router.post('/createuser', [
             let user = await User.findOne({ email: req.body.email });
 
             if (user) {
-                return res.status(400).json({ error: "user with this email already exist!" });
+                success = false;
+                return res.status(400).json({success, error: "user with this email already exist!" });
             }
             const salt = await bcrypt.genSalt(10);
             const hash = await bcrypt.hash(req.body.password, salt);
@@ -64,12 +68,12 @@ router.post('/createuser', [
             const auth_token = jwt.sign(data, JWT_SECRET);
             // console.json({ auth_token });
 
-            res.json({ auth_token });
+            res.json({ success, auth_token });
             // console.log(user);
         }
         catch (error) {
-            console.error(error.message);
-            res.status(500).send("Internal server error occured");
+            success = false;
+            res.status(500).json({ success, error:"Internal server error occured"});
         }
     });
 
